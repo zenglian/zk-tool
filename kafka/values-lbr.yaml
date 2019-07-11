@@ -136,7 +136,7 @@ headless:
 external:
   enabled: true
   # type can be either NodePort or LoadBalancer
-  type: NodePort
+  type: LoadBalancer
   # annotations:
   #  service.beta.kubernetes.io/openstack-internal-load-balancer: "true"
   dns:
@@ -148,7 +148,7 @@ external:
   distinct: true
   servicePort: 19092
   firstListenerPort: 31090
-  domain: cluster.local
+  domain: example.com
   loadBalancerIP: []
   init:
     image: "lwolf/kubectl_deployer"
@@ -183,11 +183,11 @@ configurationOverrides:
   ##
   ## Setting "advertised.listeners" here appends to "PLAINTEXT://${POD_IP}:9092,", ensure you update the domain
   ## If external service type is Nodeport:
-  "advertised.listeners": |-
-     EXTERNAL://leon5:$((31090 + ${KAFKA_BROKER_ID}))
+  ## "advertised.listeners": |-
+  ##   EXTERNAL://leon5:$((31090 + ${KAFKA_BROKER_ID}))
   ## If external service type is LoadBalancer and distinct is true:
-  # "advertised.listeners": |-
-  #   EXTERNAL://kafka-$((${KAFKA_BROKER_ID})).cluster.local:19092
+  "advertised.listeners": |-
+     EXTERNAL://kafka-$((${KAFKA_BROKER_ID})).example.com:19092
   ## If external service type is LoadBalancer and distinct is false:
   # "advertised.listeners": |-
   #   EXTERNAL://${LOAD_BALANCER_IP}:31090
@@ -212,7 +212,7 @@ persistence:
   ## The size of the PersistentVolume to allocate to each Kafka Pod in the StatefulSet. For
   ## production servers this number should likely be much larger.
   ##
-  size: "2Gi"
+  size: "1Gi"
 
   ## The location within the Kafka container where the PV will mount its storage and Kafka will
   ## store its logs.

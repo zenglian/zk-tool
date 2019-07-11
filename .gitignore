@@ -1,0 +1,3 @@
+*.pyc
+kafka/charts/zookeeper-1.3.3.tgz
+.idea/
