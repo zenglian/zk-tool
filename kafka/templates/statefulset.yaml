@@ -255,6 +255,8 @@ spec:
   volumeClaimTemplates:
   - metadata:
       name: datadir
+      labels:
+        pod: kafka
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
